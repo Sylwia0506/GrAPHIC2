@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-attachment: fixed;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.8), 
+        rgba(0, 0, 0, 0.8)
+      ), url("../assets/background.webp");
+    background-size: cover;
+    color: white;
+    text-align: center;
+}
+
+header {
+    font-size: 36px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+#holder {
+	overflow-x: auto;
+}
+
+div.inner-holder {
+	height: 50%;
+	position: relative;
+}
+
+#landing-zone {
+	border: 2px dashed white;
+	display: inline-block;
+    font-size: 20px;
+    height: 150px;
+    line-height: 150px;
+    margin: 20px;
+    position: relative;
+    text-align: center;
+	width: 50%; 
+}
+
+ul {
+    list-style-type: none;
+    padding: 20px;
+    text-align: center;
+}

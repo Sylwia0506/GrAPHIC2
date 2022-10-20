@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Kolejna część zadania</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div id="app">
+        <header>Ciąg galszy zadania</header>
+        <div class="mb-4" @change="change" @dragover="dragover" @drop="drop" style="border: 2px dashed white; color: white;">
+            <div class="card-body">
+            <div class="p-3 text-center">
+                Przeciągnij lub wybierz zdjęcie<br><br>
+                <input type="file" id="file" accept="image/jpeg,image/jpg" ref="input"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 mb-4" style="margin: 0 auto;">
+            <div style="display: flex; justify-content: space-around;">
+                <div class="card-body">
+                <h4 class="card-title">Opcje</h4><br>
+                <div class="form-group row">
+                    <label for="inputWidth" class="col-sm-5 col-form-label">Szerokość</label>
+                    <div>
+                    <input type="number" name="width" min="0" class="form-control" id="inputWidth" placeholder="-" v-model.number="options.width" style="width: 100px;">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputHeight" class="col-sm-5 col-form-label">Wysokość</label>
+                    <div>
+                    <input type="number" name="height" min="0" class="form-control" id="inputHeight" placeholder="-" v-model.number="options.height" style="width: 100px;">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputQuality" class="col-sm-5 col-form-label">Jakość</label>
+                    <div>
+                    <select class="form-control clickable" name="quality" id="inputQuality" v-model.number="options.quality" style="width: 100px;">
+                        <option value="0">0</option>
+                        <option value="0.05">0.05</option>
+                        <option value="0.1">0.1</option>
+                        <option value="0.15">0.15</option>
+                        <option value="0.2">0.2</option>
+                        <option value="0.25">0.25</option>
+                        <option value="0.3">0.3</option>
+                        <option value="0.35">0.35</option>
+                        <option value="0.4">0.4</option>
+                        <option value="0.45">0.45</option>
+                        <option value="0.5">0.5</option>
+                        <option value="0.55">0.55</option>
+                        <option value="0.6">0.6</option>
+                        <option value="0.65">0.65</option>
+                        <option value="0.7">0.7</option>
+                        <option value="0.75">0.75</option>
+                        <option value="0.8">0.8</option>
+                        <option value="0.85">0.85</option>
+                        <option value="0.9">0.9</option>
+                        <option value="0.95">0.95</option>
+                        <option value="1">1</option>
+                    </select>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-12 mb-4">
+            <div class="mb-4">
+                <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8 d-flex">
+                    <div class="w-100 text-center" v-if="inputURL">
+                        <img class="mw-100" :src="inputURL" :alt="input.name" style="border: 2px solid white;">
+                    </div>
+                    <div v-else class="w-100" style="border: 2px dashed white; display: flex; align-items: center; justify-content: center;">
+                        Zdjęcie wejściowe
+                    </div>
+                    </div>
+                    <div class="col-md-4">
+                    <dl class="row">
+                        <dt class="col-sm-12"><h4>Zdjęcie orginalne<br><br></h4></dt>
+                        <dt class="col-sm-5">Nazwa:</dt>
+                        <dd class="col-sm-7">{{ input.name || 'N/A' }}</dd>
+                        <dt class="col-sm-5">Typ:</dt>
+                        <dd class="col-sm-7">{{ input.type || 'N/A' }}</dd>
+                        <dt class="col-sm-5">Rozmiar:</dt>
+                        <dd class="col-sm-7">{{ input.size | prettySize }}</dd>
+                    </dl>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div>
+                <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8 d-flex justify-content-center">
+                    <div class="w-100 text-center" v-if="outputURL">
+                        <img class="mw-100" :src="outputURL" :alt="output.name" style="border: 2px solid white;">
+                        <div class="mt-2">
+                        <a id="download" class="mt-2" :download="output.name" :href="outputURL" title="Download the compressed image">Download</a>
+                        </div>
+                    </div>
+                    <div v-else class="w-100" style="border: 2px dashed white; display: flex; align-items: center; justify-content: center;">
+                        Wynik
+                    </div>
+                    </div>
+                    <div class="col-md-4">
+                    <dl class="row">
+                        <dt class="col-sm-12"><h4>Dane wynikowe<br><br></h4></dt>
+                        <dt class="col-sm-5">Nazwa:</dt>
+                        <dd class="col-sm-7">{{ output.name || 'N/A' }}</dd>
+                        <dt class="col-sm-5">Typ:</dt>
+                        <dd class="col-sm-7">{{ output.type || 'N/A' }}</dd>
+                        <dt class="col-sm-5">Rozmiar:</dt>
+                        <dd class="col-sm-7">{{ output.size | prettySize }}
+                        </dd>
+                    </dl>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div style="margin-top: 20px;;">
+        <a href="ppm.html" id="ppm-link"><h4>Parsowanie PPM</h4></a>
+    </div>
+    <div id="colors-scaling" style="display: inline-block; margin-top: 50px;">
+        <h4>Skalowanie koloroów<br></h4>
+        Kolor A: <input type="text" id="color-A">
+        Kolor B: <input type="text" id="color-B"><br>
+        <button class="form-control clickable" id="colors-scaling-button" style="display: inline-block; margin: 10px; width: 100px;">Skaluj!</button>
+        <div id="colors-scaling-bar">
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.min.js"></script>
+    <script src="image-compressor.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+    body {
+        background: blue no-repeat fixed center;
+    }
+</style>

@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-attachment: fixed;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.8), 
+        rgba(0, 0, 0, 0.8)
+      ), url("../assets/background.webp");
+    background-size: cover;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+header {
+    font-size: 36px;
+    margin: 20px 0;
+}
+
+div#colors-scaling {
+    margin: 20px 0 50px;
+}
+
+div#colors-scaling-bar {
+    margin-top: 20px;
+}
+
+input#color-A, input#color-B {
+    background: transparent;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    display: inline-block;
+    margin: 10px;
+    padding: 5px 10px;
+    text-align: center;
+    width: 100px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+a#ppm-link {
+    color: #888;
+    transition: all .25s ease-in-out;
+}
+
+a#ppm-link:hover {
+    color: white;
+    text-decoration: none;
+}
+
+a#download {
+    color: #888;
+    font-size: 24px;
+    transition: all .25s ease-in-out;
+}
+
+a#download:hover {
+    color: white;
+    text-decoration: none;
+}

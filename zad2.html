@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A simple JavaScript image compressor.">
+    <meta name="author" content="Chen Fengyuan">
+    <title>Kompresja</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div id="app">
+        <header>Grafika komputerowa - Zadanie 2</header>
+        <h2>Sylwia Mościcka PS 2</h2>
+        <div class="mb-4" @change="change" @dragover="dragover" @drop="drop"
+             style="border: 2px dashed white; color: white;">
+            <div class="card-body">
+                <div class="p-3 text-center">
+                    Przeciągnij lub wybierz swoje zdjęcie<br>
+                    <input type="file" id="file"
+                           accept="image/jpeg,image/jpg,image/jpe,image/png,image/gif,image/webp,image/bmp,image/tiff"
+                           ref="input"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div>
+                    <div class="card-body">
+                        <h4 class="card-title">Opcje kompresji</h4><br>
+                        <div class="form-group row">
+                            <label for="inputWidth" class="col-sm-5 col-form-label">szerokość</label>
+                            <div class="col-sm-7">
+                                <input type="number" name="width" min="0" class="form-control" id="inputWidth"
+                                       placeholder="-" v-model.number="options.width">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputHeight" class="col-sm-5 col-form-label">rozmiar</label>
+                            <div class="col-sm-7">
+                                <input type="number" name="height" min="0" class="form-control" id="inputHeight"
+                                       placeholder="-" v-model.number="options.height">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputQuality" class="col-sm-5 col-form-label">jakość</label>
+                            <div class="col-sm-7">
+                                <select class="form-control" name="quality" id="inputQuality"
+                                        v-model.number="options.quality">
+                                    <option value="0">0</option>
+                                    <option value="0.1">0.1</option>
+                                    <option value="0.2">0.2</option>
+                                    <option value="0.3">0.3</option>
+                                    <option value="0.4">0.4</option>
+                                    <option value="0.5">0.5</option>
+                                    <option value="0.6">0.6</option>
+                                    <option value="0.7">0.7</option>
+                                    <option value="0.8">0.8</option>
+                                    <option value="0.9">0.9</option>
+                                    <option value="1">1</option>
+                                    <option value="">oo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 mb-4">
+                <div class="mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 d-flex">
+                                <div class="w-100 text-center" v-if="inputURL">
+                                    <img class="mw-100" :src="inputURL" :alt="input.name">
+                                </div>
+                                <div v-else class="w-100"
+                                     style="border: 2px dashed white; display: flex; align-items: center; justify-content: center;">
+                                    Plik wejściowy
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <dl class="row">
+                                    <dt class="col-sm-12"><h4>Zdjęcie orginalne:<br><br></h4></dt>
+                                    <dt class="col-sm-5">Nazwa:</dt>
+                                    <dd class="col-sm-7">{{ input.name   }}</dd>
+                                    <dt class="col-sm-5">Typ:</dt>
+                                    <dd class="col-sm-7">{{ input.type  }}</dd>
+                                    <dt class="col-sm-5">Rozmiar:</dt>
+                                    <dd class="col-sm-7">{{ input.size  }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 d-flex justify-content-center">
+                                <div class="w-100 text-center" v-if="outputURL">
+                                    <img class="mw-100" :src="outputURL" :alt="output.name">
+                                    <div class="mt-2">
+                                        <a class="btn btn-sm btn-blocks btn-outline-primary mt-2"
+                                           :download="output.name" :href="outputURL"
+                                           title="Download the compressed image">Download</a>
+                                    </div>
+                                </div>
+                                <div v-else class="w-100"
+                                     style="border: 2px dashed white; display: flex; align-items: center; justify-content: center;">
+                                    Plik wyjściowy
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <dl class="row">
+                                    <dt class="col-sm-12"><h4>Dane (skompresowane)<br><br></h4></dt>
+                                    <dt class="col-sm-5">Nazwa:</dt>
+                                    <dd class="col-sm-7">{{ output.name  }}</dd>
+                                    <dt class="col-sm-5">Typ:</dt>
+                                    <dd class="col-sm-7">{{ output.type  }}</dd>
+                                    <dt class="col-sm-5">Rozmiar:</dt>
+                                    <dd class="col-sm-7">{{ output.size  }}
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.min.js"></script>
+<script src="image-compressor.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
+<style>
+    body {
+        background: blue no-repeat fixed center;
+    }
+</style>
